@@ -54,6 +54,7 @@ Place an object of known weight (eg. 1 KG dumbbell) on the scale and run “hx.g
 Set the reference unit
 To set the reference unit run “hx.set_reference_unit(R)”. Running “hx.get_weight(5)” should give you the weight in grams now.
 Improving HX711 readings:
+
 There are many HX711 boards on the market - some are good, and some are quite a bit worse. The grade of the board depends on how the PCB is designed AND equipped, as some manufacturers leave out populating some components in order to save costs. Good HX711 boards feature two channels to connect two load cells: A and B. On some cheap boards, the B channel isn’t equipped and simply does not work. But even with fully equipped boards, the B channel seems to produce quite a bit more noise than the A channel, which is why we recommend against using it altogether. If you want to use more than one load cell in your design, simply attach one HX711 (channel A) to each load cell, as they are cheap and readily available.
  HX711 board with missing B-Channel
 The second thing to watch out for is the resistance between the board's E- and GND pins. In the reference diagram, provided by the manufacturer of the HX711, there should be a direct connection between these two, but a very low resistance is also fine. If you measure a higher resistance you will have to solder that connection in, as a missing connection here might lead to measuring inaccuracies, drifting over time, and/or a higher temperature dependency.
@@ -72,6 +73,8 @@ $ sudo apt update
 $ sudo apt upgrade
 $ sudo apt install i2c-tools
 After that, we can use i2cdetect -l to list all available I²C interfaces, which, in our case, until now, should only return the interface i2c-1. After that run i2cdetect -y 1 to list all connected devices to port 1. If you wired everything right the output should look something like this:
+
+
     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- --
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -81,9 +84,14 @@ After that, we can use i2cdetect -l to list all available I²C interfaces, which
 50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 60: —- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 70: -- -- -- -- -- -- 76 77
+
+
 Next add the line “dtparam=i2c_vc=on” at the end of the config file at /boot/config.txt, which you can open with
 sudo nano /boot/config.txt
 After this reboot (sudo reboot) you should see the second I²C interface when you run i2cdetect -l again. Now i2cdetect -y 0 should also work and display 
+
+
+
     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- --
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -93,6 +101,7 @@ After this reboot (sudo reboot) you should see the second I²C interface when yo
 50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 60: —- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 70: -- -- -- -- -- -- 76 --
+
 
 
 
