@@ -1,10 +1,10 @@
 Check out my Medium article on [Exploring the Secret Life of Bees](https://medium.com/@BeeScientists/exploring-the-secret-live-of-bees-8f864fce8a80) 🐝🔍
 
-# -Study-of-a-Beehive-Capturing-System 
- 1.       Motivation for the experiment:
+# Exploring the Secret Life of Bees 🐝 :
+## 1.       Motivation for the experiment:
 Honey bees (Apis mellifera) are highly social insects known for their vital role in pollination and honey production. They organize themselves into complex colonies with a queen, worker bees, and drones. Worker bees gather nectar from flowers, converting it into honey through enzymatic reactions and dehydration. Honey serves as their primary food source during winter. Bees also play an essential part in pollinating various plants, thereby aiding global food production [ref: honeybee]. The paper “Chronic within-hive video recordings detect altered nursing behavior and retarded larval development of neonicotinoid treated honey bees” (2020) presents a novel approach to investigate the impact of insecticides on honey bee brood care and larval growth. The authors utilized video cameras to monitor the activities of bees in hives that were exposed to neonicotinoids. Neonicotinoids are a group of five insecticides (four of which are banned in Germany) that get absorbed into plant pollen and nectar, and ultimately ingested by the bee. They discovered that the use of neonicotinoids diminished nursing activity among bees and impeded larval growth. Additionally, there were adverse impacts on colony size and survival. These findings have prompted further investigation into bee behavior, utilizing a variety of sensors. The sensors utilized in our system provide numerous advantages when observing and scrutinizing a bee colony. They can measure several parameters significant to the bee's productivity and health, including weight, humidity, temperature, and bee activity. The data can be collected automatically and continuously without the need for human intervention or disturbing the bees. Moreover, the data is wirelessly transferred to the archiving platform, thereby reducing the need for cables and wires that could interfere with the hive or the environment. The camera setup supplies high-resolution data, facilitating detailed and accurate analysis and visualization of the bee colony. Studying honey bee behavior and health using cameras and sensors is a valuable approach in biological research and was a major motivation for us to develop this system. Sensors were deployed in and around the system to monitor temperature and humidity. The attached weight sensor helped to monitor the hive weight. This provided insights into swarming behavior, and changes in hive population. Together our system enables highly detailed monitoring of the hive parameters. Studying this data should be a valuable approach to understanding honey bee ecology, health, and their interaction with the environment. While observing the bees in our experiment though, we encountered a problem that ultimately led to an early end for the observation.
 
-2.       System Design
+## 2.       System Design
 Old system: The system was developed to record the behavior of bees in a hive using a high-performance camera and a versatile LED light. The BASLER acA2040 camera can capture images with a 3-megapixel resolution and record videos at a frame rate of 36 frames per second. The MR300W LED light was adjustable in light intensity and wavelength. To prevent disruption to the bees, a red or infrared light source was utilized, as these frequencies are not visible to bees. Therefore the system enabled the observation and analysis of bee activity and interactions in a natural environment. The images and videos were directly recorded by a nearby computer for further processing and storage. The energy consumption was a disadvantage of this system as it was necessary to capture images and videos continuously. Furthermore, monitoring the bees solely via camera resulted in incomplete insights. Thus, a significant overhaul was necessary for the system to yield richer data.
 Improving the system:
 The new system stems from a combination of hardware changes and software upgrades, which, in combination, resulted in a better and more efficient system.
@@ -27,7 +27,7 @@ Moreover, the system also uses Wake on LAN to save power on the server side. Wak
 
 
 
-Connecting the load cell
+### Connecting the load cell
 Wiring up the H30A load cell to the A/D converter is straightforward, although color coding can be different on other load cells.
 	Red to E+ (Input)
 	Black to E- (Input)
@@ -45,7 +45,7 @@ To test if everything is working correctly we can use this library. Just clone (
 This will install the required GPIO libraries. If you have connected the HX711 to the GPIO ports 5 and 6 you don’t have to change anything, if not, you have to adjust the code.
 
  
-Calibrating the load cell
+### Calibrating the load cell
 In the Python script, you find the line “hx.set_reference_unit(referenceUnit)”. The readings of the loadcell don't have a Unit. As we most likely want to have grams displayed we need to figure out the ratio of scale units to grams. To do this follow the next steps:
 Measure the offset:
 Run “hx.read_median(5)” once without anything on the scale. The reading you get is the offset, as you were expecting a 0.
@@ -65,7 +65,7 @@ The above picture shows the 22 Ohm resistor (soldered in parallel to R1) in the 
 BME280
 The sensors we use to measure temperature etc. use I²C as their communication protocol. That is nice, as it only uses four shared wires (GND, VCC, Clock, Data) for every device on the bus, which makes it very easy to use. Also addressing is very easy, as each device has a built-in address. This means that you can just send a request to address “0x76” for example and you will receive the temperature of that node. This is very fine if you only use one of each sensor, as different sensor types tend to have different addresses programmed. As the 7-bit addresses only allow for 112 unique addresses, not every device manufactured can have a distinct address. The BME boards we use allow you to choose from two possible addresses (0x76 and 0x77) by cutting and bridging some solder pads. As we want to use three temperature sensors we also need to create a second I²C bus on the Raspberry Pi, which we will show you later. 
 
-Connecting the BMEs
+### Connecting the BMEs
 To fit the three sensors on two buses we need to modify one of the BMEs and assign it the address “0x77”. This is easily done by cutting the small trace connecting pad 1 and 2, followed by bridging the pads 2 and 3 with a little blob of solder. 
 
 The following diagram shows you how to connect the sensors to the Pi in detail:
@@ -107,7 +107,7 @@ After this reboot (sudo reboot) you should see the second I²C interface when yo
 
 
 
-Software prerequisites:
+## Software prerequisites:
 In the following paragraph, we provide you with a short guide on how to set up the prerequisite software components. Please note that this is a high-level overview, and the specific installation details may vary depending on your operating system and hardware.
 
    - InfluxDB:
@@ -132,7 +132,7 @@ You should see the message appear in the subscriber window.
 
 
 
-InfluxDB Setup:
+### InfluxDB Setup:
 
 Create a new InfluxDB database for storing data.
 Configure authentication settings (username and password) as needed.
@@ -175,7 +175,7 @@ Lastly, after a few seconds, we send a random MQTT message to the server which i
 
 Using the scheduler library we can run our functions at set time intervals. Also, every function gets executed in its own thread, which allows parallel execution. 
 
-3.       Experiment
+## 3.       Experiment
 In our experimental setup, we introduced bees into our newly upgraded bee-hive system, which was a significant improvement over the previous version. These bees were provided by our dedicated beekeeper and were integrated into our state-of-the-art system. The bees were healthy and very calm and did not cause any issues when they were being brought in by the beekeeper. The fact that none of the people had to wear any protective gear during the process, says it all. To get the bees into their new home we attached a small edge to the lowest module, equipped with a makeshift roof to create a dark “cave” for the bees to go into by themselves. 
 
 
@@ -190,5 +190,5 @@ When looking at the weight data (of course we only have data after most of the b
 
 Another interesting graph we can look at is the temperature one. We saw a day and night pattern again but also noticed large deltas between the 3 different sensors. Also, the sensor represented by the green line seems to be capturing very noisy data. 
 In total, we accumulated a substantial dataset consisting of 915 GB in images and videos totaling 310.000 files. We hope that this data can be a rich source of information to further understand bee behavior and hive dynamics. Once the next bee year starts in spring we hope to get the hive populated again to get the first real data with an intact colony!
-4.       Conclusion
+## 4.       Conclusion
      In conclusion, we built a system as a combination of hardware and software components that collected and displayed data from the beehive. The data was carefully captured and stored over a period of time to enable a better understanding of the behavior of the bees. Although our relationship with the bees did not last as long as we hoped for, we still got some valuable insight with respect to the reaction of the bees in different environmental conditions like temperature and humidity, which were captured by the sensors alongside visual data. The pictures and videos of the bees were captured by a high-quality camera placed outside the system. Lastly, the collected and observed data was planned to be handed over to the biologists for further research with respect to the behavior of the bees. At the end we would like to leave you with 30 minutes of relaxing bee footage: YouTube
